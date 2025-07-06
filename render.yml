@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: webhook-flask
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn app:app
+    envVars:
+      - key: MONGO_URI
+        value: mongodb+srv://SACHIN-IITM:ZhpqGRrx7EjTMzEI@cluster0.elfkgtu.mongodb.net/webhookDB?retryWrites=true&w=majority
