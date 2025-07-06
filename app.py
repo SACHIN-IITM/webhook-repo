@@ -14,7 +14,7 @@ def index():
 def webhook():
     data = request.json
     action_type = request.headers.get('X-GitHub-Event')
-    event = None  # initialize
+    event = None  
 
     # for push
     if action_type == "push":
@@ -51,8 +51,8 @@ def webhook():
             event = {
                 "author": pr["user"]["login"],
                 "action": "pull_request",
-                "from_branch": pr["head"]["ref"],  # feature branch
-                "to_branch": pr["base"]["ref"],    # target branch (e.g. main)
+                "from_branch": pr["head"]["ref"],  
+                "to_branch": pr["base"]["ref"],   
                 "timestamp": datetime.utcnow()
             }
 
@@ -76,7 +76,7 @@ def webhook():
 
 @app.route('/latest')
 def latest():
-    date_str = request.args.get("date")  # Format: YYYY-MM-DD
+    date_str = request.args.get("date")  
     now = datetime.utcnow().replace(tzinfo=pytz.utc)
 
     query = {}
@@ -95,7 +95,7 @@ def latest():
         except Exception as e:
             print("Date parsing failed:", e)
 
-    events = list(events_collection.find(query).sort("timestamp", -1).limit(10))
+    events = list(events_collection.find(query).sort("timestamp", -1))
 
     for e in events:
         e["_id"] = str(e["_id"])
@@ -109,7 +109,7 @@ def latest():
 def time_ago(now, past):
     diff = now - past.replace(tzinfo=pytz.utc)
     seconds = int(diff.total_seconds())
-    minutes = seconds // 60
+    minutes = seconds // 60 
     hours = minutes // 60
 
     if seconds < 30:
