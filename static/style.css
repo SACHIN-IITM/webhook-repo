@@ -78,3 +78,19 @@ h1 {
     opacity: 1;
   }
 }
+
+.feed {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+}
+.feed::-webkit-scrollbar {
+  width: 8px;
+}
+.feed::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
