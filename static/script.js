@@ -35,11 +35,12 @@ async function fetchEvents(date) {
 
             let content = "";
             if (event.action === "push") {
-                content = `<strong>${event.author}</strong> pushed to <strong>${event.to_branch}</strong>`;
+                const msg = event.commit_message ? `: "${event.commit_message}"` : "";
+                content = `<strong>${event.author}</strong> pushed to <strong>${event.to_branch}</strong>${msg}`;
             } else if (event.action === "pull_request") {
                 content = `<strong>${event.author}</strong> submitted a pull request from <strong>${event.from_branch}</strong> to <strong>${event.to_branch}</strong>`;
             } else if (event.action === "merge") {
-                content = `<strong>${event.author}</strong> merged branch <strong>${event.from_branch}</strong> to <strong>${event.to_branch}</strong>`;
+                    content = `<strong>${event.author}</strong> merged branch <strong>${event.from_branch}</strong> to <strong>${event.to_branch}</strong>`;
             } else if (event.action === "branch_created") {
                 content = `<strong>${event.author}</strong> created new branch <strong>${event.to_branch}</strong>`;
             }

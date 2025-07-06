@@ -21,6 +21,7 @@ def webhook():
         is_created = data.get("created", False)
         branch = data["ref"].split("/")[-1]
         author = data["pusher"]["name"]
+        commits = data.get("commits", [])
 
         if is_created:
             event = {
@@ -31,11 +32,13 @@ def webhook():
                 "timestamp": datetime.utcnow()
             }
         else:
+            commit_msg = commits[-1]["message"] if commits else ""
             event = {
                 "author": author,
                 "action": "push",
                 "from_branch": None,
                 "to_branch": branch,
+                "commit_message": commit_msg,
                 "timestamp": datetime.utcnow()
             }
 
@@ -48,8 +51,8 @@ def webhook():
             event = {
                 "author": pr["user"]["login"],
                 "action": "pull_request",
-                "from_branch": pr["head"]["ref"],
-                "to_branch": pr["base"]["ref"],
+                "from_branch": pr["head"]["ref"],  # feature branch
+                "to_branch": pr["base"]["ref"],    # target branch (e.g. main)
                 "timestamp": datetime.utcnow()
             }
 
