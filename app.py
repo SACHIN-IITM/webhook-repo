@@ -18,13 +18,26 @@ def webhook():
 
     # for push
     if action_type == "push":
-        event = {
-            "author": data["pusher"]["name"],
-            "action": "push",
-            "from_branch": None,
-            "to_branch": data["ref"].split("/")[-1],
-            "timestamp": datetime.utcnow()
-        }
+        is_created = data.get("created", False)
+        branch = data["ref"].split("/")[-1]
+        author = data["pusher"]["name"]
+
+        if is_created:
+            event = {
+                "author": author,
+                "action": "branch_created",
+                "from_branch": None,
+                "to_branch": branch,
+                "timestamp": datetime.utcnow()
+            }
+        else:
+            event = {
+                "author": author,
+                "action": "push",
+                "from_branch": None,
+                "to_branch": branch,
+                "timestamp": datetime.utcnow()
+            }
 
     # for pull
     elif action_type == "pull_request":
